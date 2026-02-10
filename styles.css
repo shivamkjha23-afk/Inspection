@@ -1,0 +1,16 @@
+body { font-family: Arial, sans-serif; margin: 0; background: #f4f6fa; }
+header { padding: 16px; background: #1f3c88; color: white; display: flex; justify-content: space-between; align-items: center; }
+main { padding: 16px; display: grid; gap: 14px; }
+.card { background: white; border-radius: 10px; padding: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 10px; }
+label { display:flex; flex-direction:column; font-size: 13px; gap:4px; }
+input, select, button { padding: 7px; border:1px solid #c6c8d1; border-radius: 6px; }
+button { cursor:pointer; background:#244ecf; color:white; border:none; }
+button:hover { background:#1f3c88; }
+.grid3 { display:grid; grid-template-columns: repeat(3,1fr); gap:10px; }
+#recordsTable { width:100%; border-collapse: collapse; font-size: 13px; }
+#recordsTable th, #recordsTable td { border:1px solid #e2e4ea; padding:6px; text-align:left; }
+.bulk-panel { display:grid; grid-template-columns: 2fr 1fr 1fr auto; gap:8px; align-items:end; }
+.user-panel { display:flex; gap:8px; align-items:center; }
+.hidden { display:none; }
+.hint { color:#666; font-size:12px; }
