@@ -196,7 +196,7 @@ class Handler(BaseHTTPRequestHandler):
         self._send(code, "application/json", json.dumps(payload).encode())
 
     def _serve_file(self, relative_path):
-        file_path = BASE_DIR / relative_path
+        file_path = BASE_DIR / "static" / relative_path
         if not file_path.exists() or not file_path.is_file():
             return self._send(404, "text/plain", b"Not found")
         mime, _ = mimetypes.guess_type(str(file_path))
