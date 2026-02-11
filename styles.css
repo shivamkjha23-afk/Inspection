@@ -1,0 +1,39 @@
+:root {
+  --bg:#f3f5f9;
+  --card:#ffffff;
+  --text:#1f2937;
+  --blue:#1d4ed8;
+  --green:#15803d;
+  --orange:#ea580c;
+  --line:#d8deea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:#132a66;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{font-size:20px;font-weight:700}.sub{font-size:13px;opacity:.88}
+.nav{display:flex;flex-wrap:wrap;gap:10px}
+.nav a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:8px}
+.nav a.active,.nav a:hover{background:rgba(255,255,255,.18)}
+.container{max-width:1360px;margin:16px auto;padding:0 14px}
+.card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input,select,button,textarea{padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+button{background:var(--blue);border:none;color:#fff;cursor:pointer}
+button.secondary{background:#6b7280}button.success{background:var(--green)}button:hover{filter:brightness(.95)}button:disabled{opacity:.6;cursor:not-allowed}
+textarea{min-height:70px;resize:vertical}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+th{background:#ecf2ff}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.kpi .box{background:#eef2ff;border-radius:10px;padding:12px;border:1px solid #dae3ff}
+.kpi .box h2{margin:8px 0 0 0}
+.kpi .box.clickable{cursor:pointer}
+.kpi .box.clickable:hover{background:#dbe7ff}
+.right{margin-left:auto}.muted{font-size:12px;color:#6b7280}
+.badge{display:inline-block;padding:6px 10px;background:#e5edff;border-radius:999px;font-size:12px;font-weight:700;color:#1e3a8a}
+.unit-link{color:#1d4ed8;cursor:pointer;text-decoration:underline}
+canvas{width:100%;max-width:100%;height:auto;background:#fafcff;border:1px solid #edf1fb;border-radius:10px}

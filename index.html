@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inspection List</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <div>
+    <div class="brand">ATR 2026 Inspection Tracker</div>
+    <div class="sub">Inspection Department - Daily Progress</div>
+  </div>
+  <nav class="nav">
+    <a class="active" href="/index.html">Inspection List</a>
+    <a href="/form.html">Add / Edit Form</a>
+    <a href="/dashboard.html">Management Dashboard</a>
+  </nav>
+</header>
+
+<div class="container">
+  <section class="card row">
+    <input id="username" placeholder="Your name">
+    <select id="role">
+      <option value="user">EIS User</option>
+      <option value="admin">Admin</option>
+      <option value="management">Management</option>
+    </select>
+    <button id="saveUser">Apply User</button>
+    <span class="muted">Admin can delete + bulk upload. Management is view-only.</span>
+    <a class="right" href="/form.html"><button>+ Add New</button></a>
+  </section>
+
+  <section class="card row">
+    <label>Filter Final Status
+      <select id="filter_final_status"><option value="">All</option></select>
+    </label>
+    <label>Filter Equipment Type
+      <select id="filter_equipment_type"><option value="">All</option></select>
+    </label>
+    <button id="applyFilters">Apply Filter</button>
+    <button id="resetFilters" class="secondary">Reset Filter</button>
+    <a id="exportFilteredLink" href="/api/export.csv"><button>Export Filtered CSV</button></a>
+    <a id="exportSelectedLink" href="/api/export.csv"><button>Export Selected CSV</button></a>
+  </section>
+
+  <section class="card row">
+    <strong>Selected Record Operations</strong>
+    <label>Status <select id="bulk_status"></select></label>
+    <label>Final Status <select id="bulk_final_status"></select></label>
+    <button id="applyBulk" class="success">Update Selected</button>
+    <button id="markSelectedComplete">Mark Selected Completed</button>
+    <button id="clearSelection" class="secondary">Clear Selection</button>
+    <span id="selectedCount" class="badge">Selected: 0</span>
+  </section>
+
+  <section class="card row">
+    <strong>Bulk Data Tools</strong>
+    <a href="/api/template.csv"><button>Download Upload Template</button></a>
+    <input type="file" id="bulkFile" accept=".csv">
+    <button id="uploadBulk">Upload CSV (Admin)</button>
+  </section>
+
+  <section class="card table-wrap">
+    <table>
+      <thead>
+      <tr>
+        <th><input type="checkbox" id="selectAll"></th>
+        <th>ID</th>
+        <th>Unit</th>
+        <th>Equipment Type</th>
+        <th>Tag No.</th>
+        <th>Inspection Type</th>
+        <th>Status</th>
+        <th>Final</th>
+        <th>Updated By</th>
+        <th>Updated At</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+</div>
+
+<script src="/app.js"></script>
+<script>window.pageName='list';</script>
+</body>
+</html>
