@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Management Dashboard</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+<header>
+  <div><div class="brand">ATR 2026 Inspection Tracker</div><div class="sub">Management Dashboard</div></div>
+  <nav class="nav">
+    <a href="/index.html">Inspection List</a>
+    <a href="/form.html">Add / Edit Form</a>
+    <a class="active" href="/dashboard.html">Management Dashboard</a>
+  </nav>
+</header>
+<div class="container">
+  <section class="card row">
+    <input id="username" placeholder="Your name"><select id="role"><option value="management">Management</option><option value="user">EIS User</option><option value="admin">Admin</option></select><button id="saveUser">Apply User</button>
+  </section>
+  <section class="kpi">
+    <div class="box"><div>Total Records</div><h2 id="kTotal">0</h2></div>
+    <div class="box"><div>Completed</div><h2 id="kCompleted">0</h2></div>
+    <div class="box"><div>In Progress</div><h2 id="kProgress">0</h2></div>
+    <div class="box"><div>Not Started</div><h2 id="kNotStarted">0</h2></div>
+  </section>
+  <section class="card table-wrap">
+    <div class="row"><h3 style="margin:0">Recent Status</h3></div>
+    <table>
+      <thead><tr><th>ID</th><th>Unit</th><th>Tag</th><th>Status</th><th>Final</th><th>Updated By</th><th>Updated At</th></tr></thead>
+      <tbody id="dashRows"></tbody>
+    </table>
+  </section>
+</div>
+<script src="/app.js"></script>
+<script>window.pageName='dashboard';</script>
+</body></html>

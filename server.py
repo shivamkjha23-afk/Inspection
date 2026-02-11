@@ -8,7 +8,7 @@ import sqlite3
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import parse_qs, urlencode, urlparse, unquote
+from urllib.parse import parse_qs, urlparse, unquote
 import cgi
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -26,11 +26,6 @@ OPTIONS = {
 CSV_TEMPLATE_HEADERS = [
     "Unit Name", "Equipment_type", "Equipment_Tag_Number", "Inspection Type", "Equipment Name", "Last Inspection Year",
     "Type of inspection possible", "Update Date", "Inspection Date", "Status", "Final status", "Remarks", "Observation", "Recomendation"
-]
-
-EXPORT_HEADERS = [
-    "ID", "Unit Name", "Equipment Type", "Equipment Tag Number", "Inspection Type", "Equipment Name", "Last Inspection Year",
-    "Type of inspection possible", "Update Date", "Inspection Date", "Status", "Final status", "Remarks", "Observation", "Recommendation", "Updated By", "Updated At"
 ]
 
 SCHEMA = """
@@ -94,33 +89,6 @@ def row_to_dict(row):
 @with_db
 def get_all_records(conn):
     cur = conn.execute("SELECT * FROM inspections ORDER BY id DESC")
-    return [row_to_dict(r) for r in cur.fetchall()]
-
-
-@with_db
-def get_filtered_records(conn, final_status="", equipment_type="", ids=None):
-    conditions = []
-    params = []
-
-    if final_status:
-        conditions.append("LOWER(final_status) = LOWER(?)")
-        params.append(final_status)
-
-    if equipment_type:
-        conditions.append("LOWER(equipment_type) = LOWER(?)")
-        params.append(equipment_type)
-
-    if ids:
-        placeholders = ",".join(["?"] * len(ids))
-        conditions.append(f"id IN ({placeholders})")
-        params.extend(ids)
-
-    sql = "SELECT * FROM inspections"
-    if conditions:
-        sql += " WHERE " + " AND ".join(conditions)
-    sql += " ORDER BY id DESC"
-
-    cur = conn.execute(sql, params)
     return [row_to_dict(r) for r in cur.fetchall()]
 
 
@@ -215,12 +183,6 @@ def role_from_query(parsed, default="user"):
     return (query.get("role", [""])[0] or default).lower()
 
 
-def parse_ids(raw_ids):
-    if not raw_ids:
-        return []
-    return [int(x) for x in raw_ids.split(",") if x.strip().isdigit()]
-
-
 class Handler(BaseHTTPRequestHandler):
     def _send(self, code=200, content_type="application/json", body=None):
         self.send_response(code)
@@ -234,7 +196,7 @@ class Handler(BaseHTTPRequestHandler):
         self._send(code, "application/json", json.dumps(payload).encode())
 
     def _serve_file(self, relative_path):
-        file_path = BASE_DIR / relative_path
+        file_path = BASE_DIR / "static" / relative_path
         if not file_path.exists() or not file_path.is_file():
             return self._send(404, "text/plain", b"Not found")
         mime, _ = mimetypes.guess_type(str(file_path))
@@ -255,24 +217,14 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urlparse(self.path)
-        query = parse_qs(parsed.query)
-
         if parsed.path == "/api/options":
             return self._json(200, OPTIONS)
-
         if parsed.path == "/api/records":
-            final_status = (query.get("final_status", [""])[0] or "").strip()
-            equipment_type = (query.get("equipment_type", [""])[0] or "").strip()
-            ids = parse_ids((query.get("ids", [""])[0] or ""))
-            if final_status or equipment_type or ids:
-                return self._json(200, get_filtered_records(final_status=final_status, equipment_type=equipment_type, ids=ids))
             return self._json(200, get_all_records())
-
         if parsed.path.startswith("/api/records/"):
             rec_id = int(parsed.path.split("/")[-1])
             rec = get_record(rec_id)
             return self._json(200, rec) if rec else self._json(404, {"error": "Record not found"})
-
         if parsed.path == "/api/template.csv":
             output = io.StringIO()
             writer = csv.writer(output)
@@ -285,33 +237,6 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(data)
             return
-
-        if parsed.path == "/api/export.csv":
-            final_status = (query.get("final_status", [""])[0] or "").strip()
-            equipment_type = (query.get("equipment_type", [""])[0] or "").strip()
-            ids = parse_ids((query.get("ids", [""])[0] or ""))
-            rows = get_filtered_records(final_status=final_status, equipment_type=equipment_type, ids=ids)
-
-            output = io.StringIO()
-            writer = csv.writer(output)
-            writer.writerow(EXPORT_HEADERS)
-            for r in rows:
-                writer.writerow([
-                    r["id"], r["unit_name"], r["equipment_type"], r["equipment_tag_number"], r["inspection_type"],
-                    r["equipment_name"], r["last_inspection_year"], r["inspection_possible"], r["update_date"],
-                    r["inspection_date"], r["status"], r["final_status"], r["remarks"], r["observation"],
-                    r["recommendation"], r["updated_by"], r["updated_at"]
-                ])
-            data = output.getvalue().encode("utf-8")
-            self.send_response(200)
-            self.send_header("Content-Type", "text/csv")
-            fname_query = urlencode({"status": final_status or "all", "eq": equipment_type or "all"})
-            self.send_header("Content-Disposition", f'attachment; filename="inspection_export_{fname_query}.csv"')
-            self.send_header("Access-Control-Allow-Origin", "*")
-            self.end_headers()
-            self.wfile.write(data)
-            return
-
         return self._serve_static()
 
     def do_POST(self):

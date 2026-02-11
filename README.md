@@ -1,31 +1,18 @@
-# ATR 2026 Inspection Tracker (PATA Plant)
+# ATR 2026 Inspection Tracker
 
-A full multi-page inspection tracking website with Python backend and shared SQLite database.
+Simple web app for PATA plant daily inspection tracking with three roles:
 
-## Pages
+- **EIS User**: create/update records, status updates, multi-record status update.
+- **Admin**: everything a user can do + bulk CSV upload + record deletion.
+- **Management**: dashboard/table view only.
 
-- `index.html` (Inspection List)
-  - filter by final status / equipment type
-  - row checkbox selection and bulk update on selected records
-  - export selected records CSV
-  - export filtered records CSV
-  - admin bulk upload + template download
-- `form.html` (Add/Edit)
-  - all requested dropdowns loaded from backend
-  - create/update by ID
-  - mark completed auto-fills status + dates
-  - auto-populate remarks logic button
-- `dashboard.html` (Management)
-  - KPI cards
-  - click KPI to filter
-  - status donut chart and equipment bar chart
-  - unit summary table with click-to-filter drill-down
+## Features
 
-## Roles
-
-- **EIS User**: create/update records
-- **Admin**: user actions + delete + bulk CSV upload
-- **Management**: view-only (backend enforced)
+- Dropdown values for Unit, Equipment Type, Inspection Type, Type of Inspection Possible, Status, Final Status.
+- Mark Complete button auto-populates update date and inspection date.
+- Bulk status update by record IDs.
+- Store `updated_by` and `updated_at` for each change.
+- Shared SQLite database (`inspection.db`) usable by all users of the deployed server.
 
 ## Run
 
@@ -33,27 +20,23 @@ A full multi-page inspection tracking website with Python backend and shared SQL
 python3 server.py
 ```
 
-Open:
-- `http://localhost:8000/index.html`
-- `http://localhost:8000/form.html`
-- `http://localhost:8000/dashboard.html`
+Open http://localhost:8000
 
-## API highlights
+## CSV Upload
 
-- `GET /api/options`
-- `GET /api/records`
-- `GET /api/records/:id`
-- `POST /api/records?role=user|admin`
-- `PUT /api/records/:id?role=user|admin`
-- `DELETE /api/records/:id?role=admin`
-- `POST /api/records/bulk-status?role=user|admin`
-- `POST /api/records/bulk-upload?role=admin&user=<name>`
-- `GET /api/template.csv` (upload format)
-- `GET /api/export.csv` (full export)
-- `GET /api/export.csv?final_status=Completed&equipment_type=Vessel`
-- `GET /api/export.csv?ids=1,2,3`
+Admin can upload CSV with headers like:
 
-## Note on GitHub Pages
-
-GitHub Pages supports static files only. Python APIs will not run there.
-Deploy this on a Python host (VM, intranet server, Render/Railway, etc.).
+- `Unit Name`
+- `Equipment_type`
+- `Equipment_Tag_Number`
+- `Inspection Type`
+- `Equipment Name`
+- `Last Inspection Year`
+- `Type of inspection possible`
+- `Update Date`
+- `Inspection Date`
+- `Status`
+- `Final status`
+- `Remarks`
+- `Observation`
+- `Recomendation`

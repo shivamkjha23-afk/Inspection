@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Add/Edit Inspection</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+<header>
+  <div><div class="brand">ATR 2026 Inspection Tracker</div><div class="sub">Add / Edit Inspection</div></div>
+  <nav class="nav">
+    <a href="/index.html">Inspection List</a>
+    <a class="active" href="/form.html">Add / Edit Form</a>
+    <a href="/dashboard.html">Management Dashboard</a>
+  </nav>
+</header>
+<div class="container">
+  <section class="card row">
+    <input id="username" placeholder="Your name"><select id="role"><option value="user">EIS User</option><option value="admin">Admin</option><option value="management">Management</option></select><button id="saveUser">Apply User</button>
+    <span class="muted">Management role is view-only.</span>
+  </section>
+
+  <section class="card">
+    <div class="row"><h3 style="margin:0">Inspection Form</h3><button class="right secondary" id="loadByIdBtn">Load by ID</button><input id="loadId" placeholder="Record ID"></div>
+    <form id="inspectionForm" class="grid">
+      <input type="hidden" id="record_id">
+      <label>Unit Name<select id="unit_name"></select></label>
+      <label>Equipment Type<select id="equipment_type"></select></label>
+      <label>Equipment Tag Number<input id="equipment_tag_number" required></label>
+      <label>Inspection Type<select id="inspection_type"></select></label>
+      <label>Equipment Name<input id="equipment_name"></label>
+      <label>Last Inspection Year<input id="last_inspection_year" placeholder="2024"></label>
+      <label>Type of Inspection Possible<select id="inspection_possible"></select></label>
+      <label>Update Date<input id="update_date"></label>
+      <label>Inspection Date<input id="inspection_date"></label>
+      <label>Status<select id="status"></select></label>
+      <label>Final Status<select id="final_status"></select></label>
+      <label>Remarks<textarea id="remarks"></textarea></label>
+      <label>Observation<textarea id="observation"></textarea></label>
+      <label>Recommendation<textarea id="recommendation"></textarea></label>
+    </form>
+    <div class="row" style="margin-top:10px">
+      <button id="saveRecord" class="success">Save Record</button>
+      <button id="markComplete">Mark Completed</button>
+      <button id="resetForm" class="secondary">Reset</button>
+    </div>
+  </section>
+</div>
+<script src="/app.js"></script>
+<script>window.pageName='form';</script>
+</body></html>
