@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Inspection List</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+<header>
+  <div><div class="brand">ATR 2026 Inspection Tracker</div><div class="sub">PATA Plant</div></div>
+  <nav class="nav">
+    <a class="active" href="/index.html">Inspection List</a>
+    <a href="/form.html">Add / Edit Form</a>
+    <a href="/dashboard.html">Management Dashboard</a>
+  </nav>
+</header>
+<div class="container">
+  <section class="card row">
+    <input id="username" placeholder="Your name">
+    <select id="role"><option value="user">EIS User</option><option value="admin">Admin</option><option value="management">Management</option></select>
+    <button id="saveUser">Apply User</button>
+    <a class="right" href="/form.html"><button id="addNewBtn">+ Add New</button></a>
+  </section>
+
+  <section class="card row">
+    <strong>Selected Operations</strong>
+    <select id="bulk_status"></select>
+    <select id="bulk_final_status"></select>
+    <button id="applyBulk" class="success">Update Selected</button>
+    <button id="markSelectedComplete">Mark Selected Completed</button>
+    <button id="clearSelection" class="secondary">Clear Selection</button>
+  </section>
+
+  <section class="card row">
+    <strong>Bulk Data Tools</strong>
+    <a href="/api/template.csv"><button>Download CSV Template</button></a>
+    <input type="file" id="bulkFile" accept=".csv">
+    <button id="uploadBulk">Upload CSV (Admin)</button>
+    <span class="muted">Admin can upload/delete. Users can edit/update.</span>
+  </section>
+
+  <section class="card table-wrap">
+    <table>
+      <thead>
+      <tr><th>Select</th><th>ID</th><th>Unit</th><th>Eq Type</th><th>Tag No.</th><th>Inspection Type</th><th>Status</th><th>Final</th><th>Updated By</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+</div>
+<script src="/app.js"></script>
+<script>window.pageName='list';</script>
+</body></html>
