@@ -1,88 +1,49 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ATR 2026 Inspection Tracker</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Inspection List</title><link rel="stylesheet" href="/styles.css"></head>
 <body>
-  <header>
-    <h1>ATR 2026 - PATA Plant Daily Progress Tracker</h1>
-    <div class="user-panel">
-      <input id="username" placeholder="Enter your name" />
-      <select id="role">
-        <option value="user">EIS User</option>
-        <option value="admin">Admin</option>
-        <option value="management">Management</option>
-      </select>
-      <button id="applyUser">Apply</button>
-    </div>
-  </header>
+<header>
+  <div><div class="brand">ATR 2026 Inspection Tracker</div><div class="sub">PATA Plant</div></div>
+  <nav class="nav">
+    <a class="active" href="/index.html">Inspection List</a>
+    <a href="/form.html">Add / Edit Form</a>
+    <a href="/dashboard.html">Management Dashboard</a>
+  </nav>
+</header>
+<div class="container">
+  <section class="card row">
+    <input id="username" placeholder="Your name">
+    <select id="role"><option value="user">EIS User</option><option value="admin">Admin</option><option value="management">Management</option></select>
+    <button id="saveUser">Apply User</button>
+    <a class="right" href="/form.html"><button id="addNewBtn">+ Add New</button></a>
+  </section>
 
-  <main>
-    <section id="dashboard" class="card">
-      <h2>Management Dashboard</h2>
-      <div class="grid3">
-        <div><strong>Total:</strong> <span id="totalCount">0</span></div>
-        <div><strong>Completed:</strong> <span id="completedCount">0</span></div>
-        <div><strong>In Progress:</strong> <span id="inProgressCount">0</span></div>
-      </div>
-    </section>
+  <section class="card row">
+    <strong>Selected Operations</strong>
+    <select id="bulk_status"></select>
+    <select id="bulk_final_status"></select>
+    <button id="applyBulk" class="success">Update Selected</button>
+    <button id="markSelectedComplete">Mark Selected Completed</button>
+    <button id="clearSelection" class="secondary">Clear Selection</button>
+  </section>
 
-    <section id="formSection" class="card">
-      <h2>Inspection Form</h2>
-      <form id="inspectionForm" class="form-grid">
-        <input type="hidden" id="recordId" />
-        <label>Unit Name<select id="unit_name"></select></label>
-        <label>Equipment Type<select id="equipment_type"></select></label>
-        <label>Equipment Tag Number<input id="equipment_tag_number" required /></label>
-        <label>Inspection Type<select id="inspection_type"></select></label>
-        <label>Equipment Name<input id="equipment_name" /></label>
-        <label>Last Inspection Year<input id="last_inspection_year" placeholder="2024" /></label>
-        <label>Type of inspection possible<select id="inspection_possible"></select></label>
-        <label>Update Date<input id="update_date" /></label>
-        <label>Inspection Date<input id="inspection_date" /></label>
-        <label>Status<select id="status"></select></label>
-        <label>Final Status<select id="final_status"></select></label>
-        <label>Remarks<input id="remarks" /></label>
-        <label>Observation<input id="observation" /></label>
-        <label>Recommendation<input id="recommendation" /></label>
-        <button type="submit">Save / Update</button>
-        <button id="markComplete" type="button">Mark Completed</button>
-      </form>
-    </section>
+  <section class="card row">
+    <strong>Bulk Data Tools</strong>
+    <a href="/api/template.csv"><button>Download CSV Template</button></a>
+    <input type="file" id="bulkFile" accept=".csv">
+    <button id="uploadBulk">Upload CSV (Admin)</button>
+    <span class="muted">Admin can upload/delete. Users can edit/update.</span>
+  </section>
 
-    <section class="card">
-      <h2>Bulk Status Update</h2>
-      <div class="bulk-panel">
-        <label>Record IDs (comma separated)<input id="bulk_ids" placeholder="1,2,3" /></label>
-        <label>Status<select id="bulk_status"></select></label>
-        <label>Final Status<select id="bulk_final_status"></select></label>
-        <button id="bulkUpdateBtn">Apply to Multiple</button>
-      </div>
-    </section>
-
-    <section id="uploadSection" class="card">
-      <h2>Admin Bulk Upload (CSV)</h2>
-      <input type="file" id="bulkFile" accept=".csv" />
-      <button id="uploadBtn">Upload</button>
-      <p class="hint">CSV headers should match your sheet columns.</p>
-    </section>
-
-    <section class="card">
-      <h2>Inspection Records</h2>
-      <table id="recordsTable">
-        <thead>
-          <tr>
-            <th>ID</th><th>Unit</th><th>Equip Type</th><th>Tag</th><th>Inspection Type</th><th>Status</th><th>Final</th><th>Updated By</th><th>Actions</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
-  </main>
-
-  <script src="app.js"></script>
-</body>
-</html>
+  <section class="card table-wrap">
+    <table>
+      <thead>
+      <tr><th>Select</th><th>ID</th><th>Unit</th><th>Eq Type</th><th>Tag No.</th><th>Inspection Type</th><th>Status</th><th>Final</th><th>Updated By</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+</div>
+<script src="/app.js"></script>
+<script>window.pageName='list';</script>
+</body></html>
