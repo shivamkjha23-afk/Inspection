@@ -1,25 +1,18 @@
-# ATR 2026 Inspection Tracker (PATA Plant)
+# ATR 2026 Inspection Tracker
 
-This is a multi-page website with Python backend + SQLite database.
+Simple web app for PATA plant daily inspection tracking with three roles:
 
-## Pages
+- **EIS User**: create/update records, status updates, multi-record status update.
+- **Admin**: everything a user can do + bulk CSV upload + record deletion.
+- **Management**: dashboard/table view only.
 
-- `index.html` → Inspection list page
-  - select records with checkboxes
-  - bulk status update on selected records
-  - admin bulk CSV upload
-  - download CSV template for upload format
-- `form.html` → Add/Edit form page
-  - full form with dropdowns
-  - auto-fill completion with **Mark Completed** button
-- `dashboard.html` → Management dashboard page
-  - KPI summary and recent status table
+## Features
 
-## Roles
-
-- **EIS User**: create/update records
-- **Admin**: user permissions + bulk upload + delete
-- **Management**: view-only
+- Dropdown values for Unit, Equipment Type, Inspection Type, Type of Inspection Possible, Status, Final Status.
+- Mark Complete button auto-populates update date and inspection date.
+- Bulk status update by record IDs.
+- Store `updated_by` and `updated_at` for each change.
+- Shared SQLite database (`inspection.db`) usable by all users of the deployed server.
 
 ## Run
 
@@ -27,18 +20,11 @@ This is a multi-page website with Python backend + SQLite database.
 python3 server.py
 ```
 
-Open:
-- `http://localhost:8000/index.html`
-- `http://localhost:8000/form.html`
-- `http://localhost:8000/dashboard.html`
+Open http://localhost:8000
 
-## Bulk upload format
+## CSV Upload
 
-Download template from:
-
-- `http://localhost:8000/api/template.csv`
-
-Required CSV headers:
+Admin can upload CSV with headers like:
 
 - `Unit Name`
 - `Equipment_type`
@@ -54,9 +40,3 @@ Required CSV headers:
 - `Remarks`
 - `Observation`
 - `Recomendation`
-
-## Notes
-
-- Data is shared in `inspection.db` on the server.
-- For GitHub-hosted static sites (GitHub Pages), Python backend will not run there.
-  Deploy this to a Python-capable host or local/intranet server.
